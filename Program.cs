@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,9 +10,19 @@ namespace WordRemember
         {
             // Attempt to get input and read it into an array.
             Console.WriteLine("What is the name of the file to read from? Use of a dictionary is preferable.");
-            string inFile = Console.ReadLine();
-            string[] words = System.IO.File.ReadAllLines(inFile);
-          
+            string[] words = { };
+            try
+            {
+                string inFile = Console.ReadLine();
+                words = File.ReadAllLines(inFile);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Could not find the file specified.");
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Environment.Exit(1);
+            }
 
             // List to hold matched words.
             List<string> matchedWords = new List<string>();
@@ -46,9 +56,9 @@ namespace WordRemember
             }
 
             // Output the file.
-            Console.WriteLine("Where would you like to save your results?");
+            Console.WriteLine("Where would you like to save your results? (eg. 'results.txt')");
             string outFile = Console.ReadLine();
-            System.IO.File.WriteAllLines(outFile, matchedWords);
+            File.WriteAllLines(outFile, matchedWords);
             Console.WriteLine("File Written Successfully. Press any key to continue.");
             Console.ReadKey();
         }
